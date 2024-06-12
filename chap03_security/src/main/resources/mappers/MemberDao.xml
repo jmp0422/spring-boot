@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.chap03_security.member.model.dao.MemberDAO">
+
+	<resultMap id="loginMemberResultMap" type="com.multi.chap03_security.member.model.dto.MemberDTO">
+		<id column="MEMBER_NO" property="no" />
+		<result column="MEMBER_ID" property="id" />
+		<result column="MEMBER_PWD" property="pwd" />
+		<result column="TEMP_PWD_YN" property="tempPwdYn" />
+		<result column="PWD_CHANGED_DATETIME" property="pwdChangedDatetime" />
+		<result column="PWD_EXP_DATE" property="pwdExpDate" />
+		<result column="MEMBER_NAME" property="name" />
+		<result column="MEMBER_REGIST_DATETIME" property="registDatetime" />
+		<result column="ACCUM_LOGIN_COUNT" property="accumLoginCount" />
+        <result column="LOGIN_FAILED_COUNT" property="loginFailedCount" />
+		<result column="ACC_LOCK_YN" property="accLockYn" />
+		<result column="ACC_INACTIVE_YN" property="accInactiveYn" />
+		<result column="ACC_EXP_DATE" property="accExpDate" />
+		<result column="ACC_EXP_YN" property="accExpYn" />
+        <result column="ACC_SECESSION_DATETIME" property="accSecessionDatetime" />
+        <result column="ACC_SECESSION_YN" property="accSecessionYn" />
+
+       <collection property = "memberRoleList" resultMap="memberRoleResultMap"/>
+	</resultMap>
+
+    <resultMap id="memberRoleResultMap" type="com.multi.chap03_security.member.model.dto.MemberRoleDTO">
+        <id column="REF_MEMBER_NO" property="memberNo" />
+        <id column="REF_AUTHORITY_CODE" property="authorityCode" /><!-- ID 임 -->
+
+        <association property = "authority" resultMap="authorityResultMap"/>
+
+    </resultMap>
+
+
+    <resultMap id="authorityResultMap" type="com.multi.chap03_security.member.model.dto.AuthorityMemberDTO">
+        <id column="REF_AUTHORITY_CODE2" property="code" />
+        <result column="AUTHORITY_NAME" property="name" />
+        <result column="AUTHORITY_DESC" property="desc" />
+    </resultMap>
+
+
+    <!--<select id="findMemberById" resultMap="loginMemberResultMap" >
+        SELECT 
+               A.MEMBER_PWD 
+          FROM TBL_MEMBER A 
+         WHERE A.MEMBER_ID = #{id} 
+           AND A.STATUS='Y'
+	</select>
+	-->
+	<select id="findMemberById" resultMap="loginMemberResultMap" >
+        SELECT 
+               A.MEMBER_NO
+             , A.MEMBER_ID
+             , A.MEMBER_PWD
+             , A.TEMP_PWD_YN
+             , A.PWD_CHANGED_DATETIME
+             , A.PWD_EXP_DATE
+             , A.MEMBER_NAME
+             , A.MEMBER_REGIST_DATETIME
+             , A.ACCUM_LOGIN_COUNT
+             , A.LOGIN_FAILED_COUNT
+             , A.ACC_LOCK_YN
+             , A.ACC_INACTIVE_YN
+             , A.ACC_EXP_DATE
+             , A.ACC_EXP_YN
+             , A.ACC_SECESSION_DATETIME
+             , A.ACC_SECESSION_YN
+             , B.MEMBER_NO REF_MEMBER_NO
+             , B.AUTHORITY_CODE REF_AUTHORITY_CODE
+             , C.AUTHORITY_CODE REF_AUTHORITY_CODE2
+             , C.AUTHORITY_NAME
+             , C.AUTHORITY_DESC
+        FROM TBL_MEMBER A
+        LEFT JOIN TBL_MEMBER_ROLE B ON(A.MEMBER_NO = B.MEMBER_NO)
+        LEFT JOIN TBL_AUTHORITY C  ON(B.AUTHORITY_CODE = C.AUTHORITY_CODE)
+        WHERE A.MEMBER_ID = #{memberId}
+	</select>
+	
+</mapper>

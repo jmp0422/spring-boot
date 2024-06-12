@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.multi.chap02_crud.model.dao.MenuMapper"><!-- 메퍼위치하고  동일하게 네임스페이스 작성-->
+
+    <resultMap type="com.multi.chap02_crud.model.dto.MenuDTO" id="menuResultMap">
+        <id property="code" column="MENU_CODE"/>
+        <result property="name" column="MENU_NAME"/>
+        <result property="price" column="MENU_PRICE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+    </resultMap>
+    <resultMap type="com.multi.chap02_crud.model.dto.CategoryDTO" id="categoryResultMap">
+        <id property="code" column="CATEGORY_CODE"/>
+        <result property="name" column="CATEGORY_NAME"/>
+        <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>
+
+    </resultMap>
+
+    <select id="findAllMenu" resultMap="menuResultMap"><!-- 메소드명하고 동일하게-->
+        SELECT
+            A.MENU_CODE
+             , A.MENU_NAME
+             , A.MENU_PRICE
+             , A.CATEGORY_CODE
+             , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+        ORDER BY A.MENU_CODE
+    </select>
+    <select id="findMenuByCode" resultMap="menuResultMap"><!-- 메소드명하고 동일하게-->
+        SELECT
+            A.MENU_CODE
+             , A.MENU_NAME
+             , A.MENU_PRICE
+             , A.CATEGORY_CODE
+             , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.MENU_CODE = #{code}
+    </select>
+
+    <select id="findAllCategory" resultMap="categoryResultMap">
+        SELECT
+            A.CATEGORY_CODE
+             , A.CATEGORY_NAME
+             , A.REF_CATEGORY_CODE
+        FROM TBL_CATEGORY A
+        WHERE A.REF_CATEGORY_CODE IS NOT NULL
+
+    </select>
+
+    <insert id = "registMenu">
+        INSERT
+        INTO TBL_MENU A
+            (
+               A.MENU_CODE
+             , A.MENU_NAME
+             , A.MENU_PRICE
+             , A.CATEGORY_CODE
+             , A.ORDERABLE_STATUS
+        )
+        VALUES
+            (
+            SEQ_MENU_CODE.NEXTVAL
+                , #{ name }
+                , #{ price }
+                , #{ categoryCode }
+                , #{ orderableStatus }
+            )
+
+
+    </insert>
+
+</mapper>
