@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+서명 업로드 성공!!<img th:src="@{/resources/uploadFiles/{savedName}(savedName=${savedName})}" width="300" height="300"> <br> <br>
+<hr color="red">
+등록된 서명의 주인은 <span th:text="${signDTO.name}"></span> <br>
+등록된 서명주인의 생년월일은 <span th:text="${signDTO.birth}"></span> <br>
+</body>
+</html>

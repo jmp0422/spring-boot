@@ -1,0 +1,23 @@
+<mapper namespace="com.multi.spring.sign.model.dao.SignDAO">
+
+	<insert id="insertSign" parameterType="com.multi.spring.sign.model.dto.SignDTO"
+			useGeneratedKeys="true" keyProperty="sign_id">
+		INSERT INTO sign (name, birth, img)
+		VALUES (#{name}, #{birth}, #{img})
+	</insert>
+
+	<select id="selectSign" parameterType="String" resultType="com.multi.spring.sign.model.dto.SignDTO">
+		SELECT * FROM sign
+		WHERE name = #{name} AND birth = #{birth}
+	</select>
+
+	<select id="selectList" resultType="com.multi.spring.sign.model.dto.SignDTO">
+		SELECT * FROM sign
+	</select>
+
+	<delete id="deleteSign" parameterType="String">
+		DELETE FROM sign
+		WHERE name = #{name} AND birth = #{birth}
+	</delete>
+
+</mapper>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<!-- dto이 전달되어있는 상태 -->
+<!-- model의 속성을 출력할 때는 Thymeleaf 표현식을 쓴다.!! -->
+
+검색한 name >> <span th:text="${dto.name}"></span> <br> <!-- dto.getName() -->
+검색한 birth >> <span th:text="${dto.birth}"></span> <br>
+검색한 img >> <img alt="" th:src="@{/resources/uploadFiles/{img}(img=${dto.img})}">
+<br>
+</body>
+</html>

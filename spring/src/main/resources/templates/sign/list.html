@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<!-- model의 속성으로 지정된 list를 전달받은 상태! -->
+<th:block th:each="dto : ${list}">
+    검색한 id >> <span th:text="${dto.signid}"></span> <br>
+    검색한 name >> <span th:text="${dto.name}"></span> <br>
+    검색한 birth >> <span th:text="${dto.birth}"></span> <br>
+    검색한 img >> <img alt="" th:src="@{/resources/uploadFiles/{img}(img=${dto.img})}">
+    <hr color="lime">
+</th:block>
+</body>
+</html>
