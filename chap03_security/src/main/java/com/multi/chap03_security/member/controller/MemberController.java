@@ -1,14 +1,15 @@
-package com.multi.chap00_miniproject.admin.controller;
+package com.multi.chap03_security.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/member")
+public class MemberController {
 
-    @GetMapping("/dashboard")
-    public void dashboard(){}
+    @GetMapping("/login")
+    public void memberLoginForm(){}
+
 
 }

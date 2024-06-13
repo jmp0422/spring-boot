@@ -1,27 +1,30 @@
-package com.multi.chap00_miniproject.member.model.dto;
+package com.multi.chap00_miniproject.authentication.model.dto;
 
-import java.util.List;
+import com.multi.chap00_miniproject.member.model.dto.MemberDTO;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-public class MemberDTO {
+import java.util.Collection;
 
-    private int no;											// 회원번호
-    private String id;										// 회원아이디
-    private String pwd;										// 회원비밀번호
-    private String name;									// 회원이름
-    private String role;
+public class CustomUser extends User {
+        private int no;
+        private String id;
+        private String pwd;
+        private String name;
+        private String role;
 
-    private List<MemberDTO> memberRoleList;
-
-    public List<MemberDTO> getMemberRoleList() {
-        return memberRoleList;
+    public CustomUser(MemberDTO member, Collection<? extends GrantedAuthority> authorities) {
+        super(member.getId(), member.getPwd(), authorities);
+        setDetails(member);
     }
 
-
-    public void setMemberRoleList(List<MemberDTO> memberRoleList) {
-        this.memberRoleList = memberRoleList;
+    private void setDetails(MemberDTO member){
+        this.no = member.getNo();
+        this.id = member.getId();
+        this.pwd = member.getPwd();
+        this.name = member.getName();
+        this.role = member.getRole();
     }
-
-    public MemberDTO() {}
 
     public int getNo() {
         return no;
@@ -63,19 +66,9 @@ public class MemberDTO {
         this.role = role;
     }
 
-
-    public MemberDTO(int no, String id, String pwd, String name, String role) {
-        this.no = no;
-        this.id = id;
-        this.pwd = pwd;
-        this.name = name;
-        this.role = role;
-
-    }
-
     @Override
     public String toString() {
-        return "MemberDTO{" +
+        return "CustomUser{" +
                 "no=" + no +
                 ", id='" + id + '\'' +
                 ", pwd='" + pwd + '\'' +
@@ -84,12 +77,3 @@ public class MemberDTO {
                 '}';
     }
 }
-
-
-
-
-
-
-
-
-

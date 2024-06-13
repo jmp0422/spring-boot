@@ -81,8 +81,8 @@ class MenuControllerTest {
       * */
     @Test
     void 전체_메뉴_조회컨트롤러_테스트() throws Exception {
-        // perform() :  MockMvc가 제공하는 메서드로, 브라우저에서 서버에 URL 요청을 하듯 컨트롤러를 실행
-        // andDO : 추가로 실행할 메소드
+        // MockMvc를 사용하여 "/menu/list" URL에 GET 요청을 보내고, 상태 코드가 200 OK인지 확인합니다.
+        // 또한, 뷰의 이름이 "menu/list"인지 확인하며, 테스트 결과를 출력합니다.
         mockMvc.perform(MockMvcRequestBuilders.get("/menu/list"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 //.andExpect(MockMvcResultMatchers.forwardUrl().isOk()) 포워딩 경로일때
@@ -92,24 +92,27 @@ class MenuControllerTest {
 
     @Test
     public void 전체_카테고리_조회용_컨트롤러_테스트_동작_확인() throws Exception {
-
+        // MockMvc를 사용하여 "/menu/category" URL에 GET 요청을 보내고, 상태 코드가 200 OK인지 확인합니다.
+        // 응답의 콘텐츠 타입이 "application/json;charset=UTF-8"인지 확인하며, 테스트 결과를 출력합니다.
         mockMvc.perform(MockMvcRequestBuilders.get("/menu/category"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
                 .andDo(MockMvcResultHandlers.print());
-
-
     }
 
     @Test
     @Rollback
-    public void 신규_메뉴_등록용_컨트롤러_테스트() throws Exception{
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();//  폼에서 넘어올 값을 미리 작성
+    public void 신규_메뉴_등록용_컨트롤러_테스트() throws Exception {
+        // MultiValueMap을 사용하여 폼 데이터로 보낼 값을 작성합니다.
+        // MockMvc를 사용하여 "/menu/regist" URL에 POST 요청을 보내고, 상태 코드가 3xx 리다이렉션인지 확인합니다.
+        // 요청이 성공한 후 "/menu/list" URL로 리다이렉션되는지 확인하며,
+        // 플래시 속성에 "신규메뉴 등록에 성공하셨습니다." 메시지가 있는지 확인합니다.
+        // 테스트 결과를 출력합니다.
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); // 폼에서 넘어올 값을 미리 작성
         params.add("name", "테스트메뉴");
         params.add("price", "40000");
         params.add("categoryCode", "5");
         params.add("orderableStatus", "Y");
-
 
         mockMvc.perform(MockMvcRequestBuilders.post("/menu/regist").params(params))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
